@@ -13,15 +13,15 @@ while True:
     csocket,address=serv.accept()#communication socket,each connection gets its socket
 
     #printing a message describing this request with the IP and exact time of the request
-    print(f"Proxy server is connected to: {address}| time of request:{time.ctime()}")
+    print(f"Proxy server is connected to: {address}| time of request:{time.ctime()}\n")
 
     #incase error from client side
     try:
         dest_address=csocket.recv(112)#taking address
         request=csocket.recv(112)#taking request
     except ConnectionRefusedError:
-        print("Message not recieved from client")
-        csocket.send("there was problem with your message")
+        print("Message not recieved from client\n")
+        csocket.send("there was problem with your message\n")
 
     message= request.decode('ascii')
     actual_time=time.ctime()
@@ -35,12 +35,12 @@ while True:
         dest_socket.sendall(f"GET / HTTP/1.1\r\nHost:{dest_address}\r\n\r\n".encode('ascii'))
 
         #printing the message with exact time of the actual request
-        print(f"request recieved: {message}| actual time of request:{actual_time}".encode('ascii'))
+        print(f"request recieved: {message}| actual time of request:{actual_time}\n")
 
         #receive the response from the destination server
         response = dest_socket.recv(1024).decode('ascii')
     except ConnectionRefusedError:
-         print("server not responding")
+         print("server not responding\n")
          csocket.send("there was problem with the server,please try again")
 
     #printing a message that the response was received with the exact time
@@ -48,7 +48,7 @@ while True:
 
     #sending the client that response has been recieved
     csocket.send((f"respose {response}|  time of request:{time.ctime()}").encode('ascii'))
-    print(f"response was send to client |time of response:{actual_time}.encode('ascii')")
+    print(f"response was send to client |time of response:{actual_time}\n")
 
 
     csocket.close()

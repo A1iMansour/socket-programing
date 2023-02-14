@@ -1,6 +1,7 @@
 import socket
 import time
 
+
 ###                               MAC address????????????????????????????????????????????????????//
 
 host= "10.169.21.212" #chosing host
@@ -21,9 +22,14 @@ client_socket.sendall(("GET / HTTP/1.1\r\n\r\nDestination: " + destination_ip).e
 """
 
 request =input("what is your request: ")
-print(f"request details:  | time: {time.ctime()}")
-exct_time=time.ctime()
+print(f"request details:{request}  | time: {time.ctime()}")
+
+start = time.time()#to get round trip time
+
+exact_time=time.ctime()
 csocket.send(dest_address.encode('ascii'))
 csocket.send(request.encode('ascii'))
 
-print(csocket.recv(112).decode('ascii')+f" | exact time:{exct_time}")
+print(f"{csocket.recv(112).decode('ascii')} | exact time:{exact_time}\n")
+end=time.time()#to get round trip time
+print(f"total round trip time: {end-start}s , physical MAC address: 80:ce:62:1d:4c:6c ")
