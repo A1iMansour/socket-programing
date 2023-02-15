@@ -1,11 +1,12 @@
 import socket
 import time
 
-host= "10.169.21.212"#IP address for local host
-port=1999
+host= "10.169.23.89"#IP address for local host
+port=9899
 
 serv=socket.socket(socket.AF_INET,socket.SOCK_STREAM)#socket to accept connections
-serv.bind(('',port))#binding host with port,''used so the socket won't be to stricted
+
+serv.bind((host,port))
 serv.listen()
 
 
@@ -18,12 +19,12 @@ while True:
     #incase error from client side
     try:
         dest_address=csocket.recv(112)#taking address
-        request=csocket.recv(112)#taking request
+        #request=csocket.recv(112)#taking request#################################################
     except ConnectionRefusedError:
         print("Message not recieved from client\n")
         csocket.send("there was problem with your message\n")
 
-    message= request.decode('ascii')
+    message= "HIII"
     actual_time=time.ctime()
 
     dest_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

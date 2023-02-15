@@ -1,10 +1,10 @@
 import socket
 import time
+import uuid
 
 
-
-host= "10.169.21.212" #chosing host
-port=1999  #port number 
+host= "10.169.23.89" #chosing host
+port=9899  #port number 
 
 csocket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)#TCP
 
@@ -19,8 +19,8 @@ Accept-Language: en, mi
 client_socket.sendall(("GET / HTTP/1.1\r\n\r\nDestination: " + destination_ip).encode())
 
 """
-
-request =input("what is your request: ")
+request="hi"##################
+##request =input("what is your request: ")#######################
 print(f"request details:{request}  | time: {time.ctime()}")
 
 start = time.time()#to get round trip time
@@ -31,4 +31,6 @@ csocket.send(request.encode('ascii'))
 
 print(f"{csocket.recv(112).decode('ascii')} | exact time:{exact_time}\n")
 end=time.time()#to get round trip time
-print(f"total round trip time: {end-start}s , physical MAC address: 80:ce:62:1d:4c:6c ")
+print ("The formatted MAC address is : ", end="")
+print (':'.join(['{:02x}'.format((uuid.getnode() >> elements) & 0xff)
+for elements in range(0,2*6,2)][::-1]))
