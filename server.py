@@ -1,7 +1,7 @@
 import socket
 import time
 
-host= "10.169.23.89"#IP address for local host
+host= "10.169.23.15"#IP address for local host
 port=9899
 
 serv=socket.socket(socket.AF_INET,socket.SOCK_STREAM)#socket to accept connections
@@ -18,7 +18,7 @@ while True:
 
     #incase error from client side
     try:
-        dest_address=csocket.recv(112)#taking address
+        dest_address=csocket.recv(1024)#taking address
         #request=csocket.recv(112)#taking request#################################################
     except ConnectionRefusedError:
         print("Message not recieved from client\n")
@@ -28,10 +28,10 @@ while True:
     actual_time=time.ctime()
 
     dest_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
+    response=None
     try:#any error occuring here will be from  server side
-        dest_socket.connect((dest_address.decode('ascii'), 80))#connect method will automatically translate string to its IP address
-
+        dest_socket.connect((dest_address.decode('ascii'), 80))
+        
         #send the client's request to the destination server
         dest_socket.sendall(f"GET / HTTP/1.1\r\nHost:{dest_address}\r\n\r\n".encode('ascii'))
 
@@ -42,10 +42,10 @@ while True:
         response = dest_socket.recv(1024).decode('ascii')
     except ConnectionRefusedError:
          print("server not responding\n")
-         csocket.send("there was problem with the server,please try again")
+         csocket.send("there was problem with the server,please try again".encode('ascii'))
 
     #printing a message that the response was received with the exact time
-    print(f"response was recieved from server: {response}|  time of response:{time.ctime()}".encode('ascii'))
+    print(f"response was recieved from server: {response}|  time of response:{time.ctime()}")
 
     #sending the client that response has been recieved
     csocket.send((f"respose {response}|  time of request:{time.ctime()}").encode('ascii'))

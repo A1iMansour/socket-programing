@@ -3,7 +3,7 @@ import time
 import uuid
 
 
-host= "10.169.23.89" #chosing host
+host= "10.169.23.15" #chosing host
 port=9899  #port number 
 
 csocket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)#TCP
@@ -29,7 +29,7 @@ exact_time=time.ctime()
 csocket.send(dest_address.encode('ascii'))
 csocket.send(request.encode('ascii'))
 
-print(f"{csocket.recv(112).decode('ascii')} | exact time:{exact_time}\n")
+print(f"{csocket.recv(1024).decode('ascii')} | exact time:{exact_time}\n")
 end=time.time()#to get round trip time
 print ("The formatted MAC address is : ", end="")
 print (':'.join(['{:02x}'.format((uuid.getnode() >> elements) & 0xff)
