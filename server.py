@@ -21,8 +21,8 @@ while True:
         request=csocket.recv(1024).decode('ascii')#recieving request
         dest_address=request[request.find("Host:")+6:(request).find("\r\n\r")]#taking address
         
-    except ConnectionRefusedError:
-        print("request not recieved from client\n")
+    except socket.error as e:
+        print(f"request not recieved from client: {e}")
         csocket.send("there was problem with your message\n")
 
    #actual time of request
@@ -41,8 +41,8 @@ while True:
 
         #receive the response from the destination server
         response = dest_socket.recv(1024).decode('ascii')
-    except ConnectionRefusedError:
-         print("server not responding\n")
+    except socket.error as e:
+         print(f"server not responding: {e}")
          csocket.send("there was problem with the server,please try again".encode('ascii'))
 
     #printing a message that the response was received with the exact time
